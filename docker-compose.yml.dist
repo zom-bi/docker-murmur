@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+    murmur:
+        image: zombi/murmur:latest
+        ports:
+            - "64738:64738"
+            - "64738:64738/udp"
+        volumes:
+            - "/data/murmur:/data"
+            - "/data/ssl/:/ssl/:ro" # certificate
+
+    mumo:
+        image: zombi/mumble-moderator:latest
+        depends_on:
+            - murmur
+        volumes:
+            - "/data/mumo:/data"
+        network_mode: "service:murmur"
