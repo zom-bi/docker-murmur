@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:buster
 EXPOSE 64738/tcp 64738/udp
 
 ENV HOME /home/user
@@ -8,12 +8,14 @@ RUN useradd --create-home --home-dir $HOME user \
 # Runtime dependencies for murmurd
 RUN apt-get update && apt-get install -y \
 	ca-certificates \
-		libprotobuf10 \
+		libprotobuf17 \
 		libqt5xml5 \
 		libqt5sql5 \
 		libqt5network5 \
 		libcap2 \
-        libzeroc-ice3.6 \
+		libgrpc6 \
+		libgrpc++1 \
+        libzeroc-ice3.7 \
 	&& rm -rf /var/lib/apt/lists/*
 
 # The build dependencies will be uninstalled after compilation,
@@ -39,7 +41,11 @@ RUN buildDeps=' \
 		libcap-dev \
 		libspeexdsp-dev \
 		libprotobuf-dev \
+		libprotoc-dev \
 		protobuf-compiler \
+		protobuf-compiler-grpc \
+		libgrpc-dev \
+		libgrpc++-dev \
 		libogg-dev \
 		libavahi-compat-libdnssd-dev \
 		libsndfile1-dev \
@@ -55,7 +61,7 @@ RUN buildDeps=' \
 	&& cd /usr/src/murmur \
 	&& git submodule init \
 	&& git submodule update \
-	&& qmake -recursive main.pro CONFIG+="no-client no-g15 no-bonjour" \
+	&& qmake -recursive main.pro CONFIG+="no-client no-g15 no-bonjour grpc" \
 	&& make \
 	&& cp -r release/ /home/user/release \
 	&& chmod a+r /home/user/release -R \
