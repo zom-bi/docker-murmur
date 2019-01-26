@@ -49,7 +49,6 @@ RUN buildDeps=' \
 		libogg-dev \
 		libavahi-compat-libdnssd-dev \
 		libsndfile1-dev \
-		libg15daemon-client-dev \
 		libxi-dev \
 		git \
 	' \
