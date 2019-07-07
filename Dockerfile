@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:buster
 EXPOSE 64738/tcp 64738/udp
 
 ENV HOME /home/user
@@ -8,12 +8,12 @@ RUN useradd --create-home --home-dir $HOME user \
 # Runtime dependencies for murmurd
 RUN apt-get update && apt-get install -y \
 	ca-certificates \
-		libprotobuf10 \
+		libprotobuf17 \
 		libqt5xml5 \
 		libqt5sql5 \
 		libqt5network5 \
 		libcap2 \
-        libzeroc-ice3.6 \
+        libzeroc-ice3.7 \
 	&& rm -rf /var/lib/apt/lists/*
 
 # The build dependencies will be uninstalled after compilation,
@@ -43,7 +43,6 @@ RUN buildDeps=' \
 		libogg-dev \
 		libavahi-compat-libdnssd-dev \
 		libsndfile1-dev \
-		libg15daemon-client-dev \
 		libxi-dev \
 		git \
 	' \
